@@ -14,13 +14,14 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "GeoQuiz";
     private final static int REQUEST_CODE_CHEAT = 0;
+    private static int mCurrentQuestionId = 0;
 
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
     private Button mCheatButton;
     private TextView mQuestionTextView;
-    private boolean mIsCheater = false;
+    private static boolean mIsCheater = false;
 
     private Question[] mQuestionsBank = new Question[] {
             new Question(R.string.question_africa, false),
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             new Question(R.string.question_mideast, false),
             new Question(R.string.question_oceans, true),
     };
-    private int mCurrentQuestionId = 0;
+
     private void updateQuestion() {
         Log.d(TAG, "updateQuestion --->", new Exception());
         int questionId = mQuestionsBank[mCurrentQuestionId].getTextResId();
