@@ -1,5 +1,6 @@
 package com.gda.geoquiz;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -13,7 +14,8 @@ public class CheatActivity extends AppCompatActivity {
     private static final String EXTRA_ANSWER_IS_TRUE = "com.gda.geoquiz.ANSWER_IS_TRUE";
     private static final String EXTRA_ANSWER_IS_SHOWN = "com.gda.geoquiz.ANSWER_IS_SHOWN";
     private boolean mIsAnswerTrue;
-    private boolean mAnswerShown;
+    private static boolean mAnswerShown = false;
+//    private Intent mResultIntent = null;
 
     public static Intent newIntent(Context context, boolean isAsnwerTrue) {
 
@@ -31,7 +33,6 @@ public class CheatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
         mIsAnswerTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
-        mAnswerShown = false;
 
         Button answerButton = findViewById(R.id.showAnswerButton);
         answerButton.setOnClickListener(new View.OnClickListener() {
@@ -44,10 +45,17 @@ public class CheatActivity extends AppCompatActivity {
                     answerTxt.setText(R.string.false_button);
                 }
 
-                Intent intent = new Intent();
-                intent.putExtra(EXTRA_ANSWER_IS_SHOWN, true);
-                setResult(RESULT_OK, intent);
+                mAnswerShown = true;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent mResultIntent = new Intent();
+        mResultIntent.putExtra(EXTRA_ANSWER_IS_SHOWN, mAnswerShown);
+        setResult(RESULT_OK, mResultIntent);
+        mAnswerShown = false;
+        super.onBackPressed();
     }
 }
